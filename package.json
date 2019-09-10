@@ -5,8 +5,13 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "e:build": "vue-cli-service electron:build",
+    "e:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
   },
+  "main": "background.js",
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^2.6.5",
@@ -21,12 +26,14 @@
     "@vue/cli-plugin-typescript": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
     "babel-plugin-transform-imports": "1.5.0",
+    "electron": "^6.0.0",
     "postcss-rtl": "^1.2.3",
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "typescript": "^3.4.3",
+    "vue-cli-plugin-electron-builder": "^1.4.0",
     "vue-cli-plugin-quasar": "^1.0.0",
     "vue-template-compiler": "^2.6.10"
   },
