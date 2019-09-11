@@ -3,7 +3,6 @@
         header-class="bg-white text-h6"
         :label="category"
         dense-toggle
-        expand-separator
         switch-toggle-side>
         <q-table
             ref="stocksTable"
@@ -17,10 +16,7 @@
             hide-bottom>
             <template v-slot:body="props">
                 <q-tr :props="props"
-                      :class="{ sold: isSold(props.row) }">
-                    <q-td key="brand" :props="props">
-                        {{ props.row.brand }}
-                    </q-td>
+                      :class="{ 'bg-green text-grey-1': isSold(props.row) }">
                     <q-td key="name" :props="props">
                         {{ props.row.name }}
                     </q-td>
@@ -55,7 +51,6 @@
         data: () => {
             return {
                 columns: [
-                    { name: 'brand', align: 'left', label: 'Brand', field: 'brand', sortable: true },
                     { name: 'name', align: 'left', label: 'Name', field: 'name', sortable: true },
                     { name: 'dateOfPurchase', align: 'center', label: 'Date of Purchase', sortable: true},
                     { name: 'dateOfSale', align: 'center', label: 'Date of Sale', sortable: true},
@@ -85,8 +80,6 @@
 </script>
 
 <style lang="sass">
-    .sold
-
     .q-table
         tr
             th
@@ -97,11 +90,6 @@
                     margin-left: 0
                     position: relative
                     left: 10px
-            &.sold
-                background-color: #21BA45
-                color: floralwhite
-                &:hover
-                    background-color: #21BA45
     .q-table__card
         box-shadow: unset
 </style>

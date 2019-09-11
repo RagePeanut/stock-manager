@@ -31,11 +31,20 @@
             return {
                 categories: [
                     {
+                        name: 'Books',
+                        items: [
+                        // tslint:disable:max-line-length
+                            { id: 1, name: 'La grue araignée', purchase: { date: new Date(), price: 15 }, sale: { date: new Date(), price: 20 } },
+                            { id: 2, name: 'Little circuit', purchase: { date: new Date(), price: 5.5 }, sale: { date: undefined, price: undefined } }
+                        // tslint:enable:max-line-length
+                        ]
+                    },
+                    {
                         name: 'Toys',
                         items: [
                         // tslint:disable:max-line-length
-                            { id: 1, brand: 'LEGO', name: 'La grue araignée', purchase: { date: new Date(), price: 15 }, sale: { date: new Date(), price: 20 } },
-                            { id: 2, brand: 'Djeco', name: 'Little circuit', purchase: { date: new Date(), price: 5.5 }, sale: { date: undefined, price: undefined } }
+                            { id: 1, name: 'La grue araignée', purchase: { date: new Date(), price: 15 }, sale: { date: new Date(), price: 20 } },
+                            { id: 2, name: 'Little circuit', purchase: { date: new Date(), price: 5.5 }, sale: { date: undefined, price: undefined } }
                         // tslint:enable:max-line-length
                         ]
                     }
