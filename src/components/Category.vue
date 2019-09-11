@@ -10,6 +10,7 @@
             row-key="id"
             :columns="columns"
             :data="data"
+            :filter="filter"
             :rows-per-page-options="[0]"
             :pagination.sync="pagination"
             binary-state-sort
@@ -45,7 +46,8 @@
         },
         props: [
             'category',
-            'data'
+            'data',
+            'filter'
         ],
         mounted: function() {
             const stocksTable = this.$refs.stocksTable as any;
@@ -56,3 +58,23 @@
         }
     });
 </script>
+
+<style lang="sass">
+    .q-table
+        tr
+            th
+                opacity: 1
+                text-align: center
+                i
+                    width: 0
+                    margin-left: 0
+                    position: relative
+                    left: 10px
+            &.sold
+                background-color: #21BA45
+                color: floralwhite
+                &:hover
+                    background-color: #21BA45
+    .q-table__card
+        box-shadow: unset
+</style>
