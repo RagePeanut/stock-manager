@@ -15,7 +15,9 @@ import {
   QPageContainer,
   QTab,
   QTable,
-  QTabs
+  QTabs,
+  QTd,
+  QTr
 } from 'quasar';
 import './styles/quasar.styl';
 
@@ -32,7 +34,9 @@ export default {
         QPage,
         QTab,
         QTable,
-        QTabs
+        QTabs,
+        QTd,
+        QTr
     },
     directives: {},
     plugins: {},

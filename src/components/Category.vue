@@ -14,8 +14,34 @@
             :rows-per-page-options="[0]"
             :pagination.sync="pagination"
             binary-state-sort
-            hide-bottom
-        />
+            hide-bottom>
+            <template v-slot:body="props">
+                <q-tr :props="props"
+                      :class="{ sold: isSold(props.row) }">
+                    <q-td key="brand" :props="props">
+                        {{ props.row.brand }}
+                    </q-td>
+                    <q-td key="name" :props="props">
+                        {{ props.row.name }}
+                    </q-td>
+                    <q-td key="dateOfPurchase" :props="props">
+                        {{ formatDate(props.row.purchase.date) }}
+                    </q-td>
+                    <q-td key="dateOfSale" :props="props">
+                        {{ formatDate(props.row.sale.date) }}
+                    </q-td>
+                    <q-td key="buyingPrice" :props="props">
+                        {{ formatPrice(props.row.purchase.price) }}
+                    </q-td>
+                    <q-td key="sellingPrice" :props="props">
+                        {{ formatPrice(props.row.sale.price) }}
+                    </q-td>
+                    <q-td key="profit" :props="props">
+                        {{ formatPrice(props.row.sale.price - props.row.purchase.price) }}
+                    </q-td>
+                </q-tr>
+            </template>
+        </q-table>
     </q-expansion-item>
 </template>
 
@@ -29,14 +55,13 @@
         data: () => {
             return {
                 columns: [
-                    // tslint:disable:max-line-length
                     { name: 'brand', align: 'left', label: 'Brand', field: 'brand', sortable: true },
                     { name: 'name', align: 'left', label: 'Name', field: 'name', sortable: true },
-                    { name: 'dateOfPurchase', align: 'center', label: 'Date of Purchase', field: (row: any) => row.purchase.date, format: (date: Date) => formatDate(date), sortable: true},
-                    { name: 'dateOfSale', align: 'center', label: 'Date of Sale', field: (row: any) => row.sale.date, format: (date: Date) => date ? formatDate(date) : '', sortable: true},
-                    { name: 'buyingPrice', align: 'center', label: 'Buying Price', field: (row: any) => row.purchase.price, format: (price: number) => formatPrice(price), sortable: true },
-                    { name: 'sellingPrice', align: 'center', label: 'Selling Price', field: (row: any) => row.sale.price, format: (price: number) => price ? formatPrice(price) : '', sortable: true },
-                    { name: 'profit', align: 'center', label: 'Profit', field: (row: any) => row.sale.price - row.purchase.price, format: (profit: number) => profit ? formatPrice(profit) : '', sortable: true}
+                    { name: 'dateOfPurchase', align: 'center', label: 'Date of Purchase', sortable: true},
+                    { name: 'dateOfSale', align: 'center', label: 'Date of Sale', sortable: true},
+                    { name: 'buyingPrice', align: 'center', label: 'Buying Price', sortable: true },
+                    { name: 'sellingPrice', align: 'center', label: 'Selling Price', sortable: true },
+                    { name: 'profit', align: 'center', label: 'Profit', sortable: true}
                 ],
                 pagination: {
                     page: 1,
@@ -49,17 +74,19 @@
             'data',
             'filter'
         ],
-        mounted: function() {
-            const stocksTable = this.$refs.stocksTable as any;
-            const stocksTableElt = stocksTable.$el as HTMLElement;
-            stocksTableElt.querySelectorAll('tr > td:last-child:not(:empty)').forEach((el: Element) => {
-                (el.parentElement as HTMLElement).classList.add('sold');
-            });
+        methods: {
+            formatDate,
+            formatPrice,
+            isSold(row: any) {
+                return row.sale && row.sale.price && row.sale.date;
+            }
         }
     });
 </script>
 
 <style lang="sass">
+    .sold
+
     .q-table
         tr
             th
