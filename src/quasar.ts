@@ -6,37 +6,31 @@ import '@quasar/extras/mdi-v3/mdi-v3.css';
 import '@quasar/extras/roboto-font/roboto-font.css';
 import {
   QBtn,
-  QDrawer,
   QHeader,
   QIcon,
-  QItem,
-  QItemLabel,
-  QItemSection,
   QLayout,
-  QList,
   QPage,
   QPageContainer,
-  QToolbar,
-  QToolbarTitle,
+  QPagination,
+  QTab,
+  QTable,
+  QTabs
 } from 'quasar';
 import './styles/quasar.styl';
 
 export default {
     config: {},
     components: {
-        QLayout,
+        QBtn,
         QHeader,
-        QDrawer,
+        QIcon,
+        QLayout,
         QPageContainer,
         QPage,
-        QToolbar,
-        QToolbarTitle,
-        QBtn,
-        QIcon,
-        QList,
-        QItem,
-        QItemSection,
-        QItemLabel,
+        QPagination,
+        QTab,
+        QTable,
+        QTabs
     },
     directives: {},
     plugins: {},

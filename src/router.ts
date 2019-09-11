@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import DefaultLayout from './layouts/Default.vue';
-import About from './views/About.vue';
-import Home from './views/Home.vue';
+import Stocks from './views/Stocks.vue';
 
 Vue.use(Router);
 
@@ -14,13 +13,9 @@ export default new Router({
       children: [
         {
           path: '',
-          name: 'home',
-          component: Home
-        },
-        {
-          path: '/about',
-          name: 'about',
-          component: About
+          alias: '/stocks',
+          name: 'stocks',
+          component: Stocks
         }
       ]
     }
