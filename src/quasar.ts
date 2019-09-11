@@ -6,12 +6,12 @@ import '@quasar/extras/mdi-v3/mdi-v3.css';
 import '@quasar/extras/roboto-font/roboto-font.css';
 import {
   QBtn,
+  QExpansionItem,
   QHeader,
   QIcon,
   QLayout,
   QPage,
   QPageContainer,
-  QPagination,
   QTab,
   QTable,
   QTabs
@@ -22,12 +22,12 @@ export default {
     config: {},
     components: {
         QBtn,
+        QExpansionItem,
         QHeader,
         QIcon,
         QLayout,
         QPageContainer,
         QPage,
-        QPagination,
         QTab,
         QTable,
         QTabs
