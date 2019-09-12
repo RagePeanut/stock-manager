@@ -20,6 +20,9 @@
                     <q-td key="name" :props="props">
                         <q-input v-model="props.row.name" type="text" spellcheck="false" borderless/>
                     </q-td>
+                    <q-td key="state" :props="props">
+                        <q-select v-model="props.row.state" :options="options" borderless/>
+                    </q-td>
                     <q-td key="dateOfPurchase" :props="props">
                         <!-- <datetime v-model="props.row.purchase.date" input-class="cursor-pointer"/> -->
                         <q-btn :ripple="false" :label="props.row.purchase.date" clear-label="test" flat>
@@ -29,13 +32,14 @@
                         </q-btn>
                     </q-td>
                     <q-td key="dateOfSale" :props="props">
-                        <q-btn :label="props.row.sale.date" flat>
+                        <q-btn :ripple="false" :label="props.row.sale.date" flat>
                             <q-popup-proxy ref="datePopup">
                                 <q-date v-model="props.row.sale.date" :locale="locale" :mask="mask"/>
                                 <q-btn class="clear-btn" label="Clear" color="primary" @click="props.row.sale.date = undefined" v-close-popup flat/>
                             </q-popup-proxy>
                         </q-btn>
                     </q-td>
+                    <!-- TODO: fix ::before being highlighted when mouse isn't over the input -->
                     <q-td key="buyingPrice" class="td-money" :props="props">
                         <money class="q-field__native" v-model="props.row.purchase.price" v-bind="money"/>
                     </q-td>
@@ -62,7 +66,8 @@
         data: () => {
             return {
                 columns: [
-                    { name: 'name', align: 'left', label: 'Name', field: 'name', sortable: true },
+                    { name: 'name', align: 'left', label: 'Name', sortable: true },
+                    { name: 'state', align: 'center', label: 'State', sortable: true},
                     { name: 'dateOfPurchase', align: 'center', label: 'Date of Purchase', sortable: true},
                     { name: 'dateOfSale', align: 'center', label: 'Date of Sale', sortable: true},
                     { name: 'buyingPrice', align: 'center', label: 'Buying Price', sortable: true },
@@ -79,6 +84,10 @@
                     precision: 2,
                     masked: false
                 },
+                options: [
+                    'New',
+                    'Used'
+                ],
                 pagination: {
                     page: 1,
                     rowsPerPage: 0
@@ -131,8 +140,12 @@
             background-color: unset
             &.vdatetime-input, &.v-money
                 text-align: center
-        .q-field__control input
-            padding-left: 16px
+        .q-field__control
+            input
+                padding-left: 16px
+            span
+                padding: 0 16px
+                margin: 0 auto
         .q-field__control, .td-money
             height: 56px
             &::before
@@ -150,13 +163,15 @@
                 pointer-events: none
             &:hover::before
                 opacity: 0.15
+        .q-field__append
+            display: none
         .td-money
             position: relative
             &::before
                 width: calc(100% - 32px)
                 margin: 10px 16px
         &.bg-green
-            input
+            input, .q-select .q-field__native
                 color: #fafafa // .text-grey-1
             .q-field__control::before, .td-money::before
                 background-color: white
