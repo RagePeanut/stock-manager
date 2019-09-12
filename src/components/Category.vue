@@ -10,8 +10,9 @@
             :columns="columns"
             :data="data"
             :filter="filter"
-            :rows-per-page-options="[0]"
             :pagination.sync="pagination"
+            :rows-per-page-options="[0]"
+            :sort-method="sortTable"
             binary-state-sort
             hide-bottom>
             <template v-slot:body="props">
@@ -57,6 +58,8 @@
 
 <script lang="ts">
     import Vue from 'vue';
+    
+    import { date } from 'quasar';
 
     import config from '../app.config';
     import { formatDate, formatPrice } from '../utils/formatter';
@@ -102,7 +105,33 @@
         methods: {
             formatDate,
             formatPrice,
-            isSold: (row: any): boolean => row.sale && row.sale.price && row.sale.date
+            isSold: (row: any): boolean => row.sale && row.sale.price && row.sale.date,
+            sortTable: function(rows: any[], sortBy: string, isDescending: boolean) {
+                const data = [...rows];
+                return data.sort((a: any, b: any) => {
+                    const { x, y }: any = isDescending ? { x: b, y: a } : { x: a, y: b };
+                    switch (sortBy) {
+                        case 'buyingPrice':
+                            return x.purchase.price - y.purchase.price;
+                        case 'sellingPrice':
+                            return x.sale.price - y.sale.price;
+                        case 'profit':
+                            return (x.sale.price - x.purchase.price) - (y.sale.price - y.purchase.price);
+                        case 'dateOfPurchase':
+                            return date.getDateDiff(
+                                            date.extractDate(x.purchase.date, this.mask),
+                                            date.extractDate(y.purchase.date, this.mask)
+                                        ).valueOf();
+                        case 'dateOfSale':
+                            return date.getDateDiff(
+                                            date.extractDate(x.sale.date, this.mask),
+                                            date.extractDate(y.sale.date, this.mask)
+                                        ).valueOf();
+                        default:
+                            return x[sortBy] > y[sortBy] ? 1 : x[sortBy] < y[sortBy] ? -1 : 0;
+                    }
+                });
+            }
         }
     });
 </script>
