@@ -1,16 +1,17 @@
 <template>
     <q-expansion-item
-        class="q-pt-lg"
         header-class="bg-white text-h6"
         header-style="user-select: none"
         :label="category"
         dense-toggle
         switch-toggle-side>
         <q-table
+            class="q-pb-lg"
             ref="stocksTable"
             row-key="id"
             selection="multiple"
             separator="none"
+            v-if="data.length > 0"
             :columns="columns"
             :data="data"
             :filter="filter"
@@ -24,7 +25,7 @@
                 <q-tr :props="props"
                       :class="{ 'bg-green text-grey-1': isSold(props.row) }">
                     <q-td auto-width>
-                        <q-checkbox v-model="props.selected"/>
+                        <q-checkbox :value="props.selected" @input="props.selected = !props.selected; props.row.selected = !props.row.selected"/>
                     </q-td>
                     <q-td key="name" :props="props">
                         <q-input v-model="props.row.name" type="text" spellcheck="false" borderless/>

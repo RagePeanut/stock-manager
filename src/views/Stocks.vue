@@ -8,6 +8,9 @@
             <q-icon name="search"/>
         </template>
     </q-input>
+    <div class="actions q-pb-lg q-pl-md">
+        <q-btn color="negative" icon="delete" label="Remove" @click="removeSelected"/>
+    </div>
     <Category
         v-for="category of categories"
         :category="category.name"
@@ -34,8 +37,8 @@
                         name: 'Books',
                         items: [
                         // tslint:disable:max-line-length
-                            { id: 1, name: 'Devoir de vérité - Tariq Ramadan', state: 'New', purchase: { date: '18/07/2018', price: 15 }, sale: { date: '18/07/2018', price: 20 } },
-                            { id: 2, name: 'Changer l\'eau des fleurs - Valérie Perrin', state: 'Used', purchase: { date: '18/07/2018', price: 5.5 }, sale: { date: undefined, price: undefined } }
+                            { id: 1, name: 'Devoir de vérité - Tariq Ramadan', state: 'New', purchase: { date: '18/07/2018', price: 15 }, sale: { date: '18/07/2018', price: 20 }, selected: false },
+                            { id: 2, name: 'Changer l\'eau des fleurs - Valérie Perrin', state: 'Used', purchase: { date: '18/07/2018', price: 5.5 }, sale: { date: undefined, price: undefined }, selected: false }
                         // tslint:enable:max-line-length
                         ]
                     },
@@ -43,14 +46,21 @@
                         name: 'Toys',
                         items: [
                         // tslint:disable:max-line-length
-                            { id: 1, name: 'La grue araignée', state: 'New', purchase: { date: '18/07/2018', price: 15 }, sale: { date: '18/07/2018', price: 20 } },
-                            { id: 2, name: 'Little circuit', state: 'Used', purchase: { date: '18/07/2018', price: 5.5 }, sale: { date: undefined, price: undefined } }
+                            { id: 1, name: 'La grue araignée', state: 'New', purchase: { date: '18/07/2018', price: 15 }, sale: { date: '18/07/2018', price: 20 }, selected: false },
+                            { id: 2, name: 'Little circuit', state: 'Used', purchase: { date: '18/07/2018', price: 5.5 }, sale: { date: undefined, price: undefined }, selected: false }
                         // tslint:enable:max-line-length
                         ]
                     }
                 ],
                 filter: ''
             };
+        },
+        methods: {
+            removeSelected: function() {
+                for (const category of this.categories) {
+                    category.items = category.items.filter((item: any) => !item.selected);
+                }
+            }
         }
     });
 </script>
