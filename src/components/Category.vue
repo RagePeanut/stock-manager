@@ -1,23 +1,31 @@
 <template>
     <q-expansion-item
+        class="q-pt-lg"
         header-class="bg-white text-h6"
+        header-style="user-select: none"
         :label="category"
         dense-toggle
         switch-toggle-side>
         <q-table
             ref="stocksTable"
             row-key="id"
+            selection="multiple"
+            separator="none"
             :columns="columns"
             :data="data"
             :filter="filter"
             :pagination.sync="pagination"
             :rows-per-page-options="[0]"
+            :selected.sync="selected"
             :sort-method="sortTable"
             binary-state-sort
             hide-bottom>
             <template v-slot:body="props">
                 <q-tr :props="props"
                       :class="{ 'bg-green text-grey-1': isSold(props.row) }">
+                    <q-td auto-width>
+                        <q-checkbox v-model="props.selected"/>
+                    </q-td>
                     <q-td key="name" :props="props">
                         <q-input v-model="props.row.name" type="text" spellcheck="false" borderless/>
                     </q-td>
@@ -25,7 +33,6 @@
                         <q-select v-model="props.row.state" :options="options" borderless/>
                     </q-td>
                     <q-td key="dateOfPurchase" :props="props">
-                        <!-- <datetime v-model="props.row.purchase.date" input-class="cursor-pointer"/> -->
                         <q-btn :ripple="false" :label="props.row.purchase.date" clear-label="test" flat>
                             <q-popup-proxy>
                                 <q-date v-model="props.row.purchase.date" :locale="locale" :mask="mask"/>
@@ -47,7 +54,7 @@
                     <q-td key="sellingPrice" class="td-money" :props="props">
                         <money class="q-field__native" v-model="props.row.sale.price" v-bind="money"/>
                     </q-td>
-                    <q-td key="profit" :props="props" style="pointer-events: none">
+                    <q-td key="profit" style="user-select:none" :props="props">
                         {{ props.row.sale.date ? formatPrice(props.row.sale.price - props.row.purchase.price) : ''}}
                     </q-td>
                 </q-tr>
@@ -70,12 +77,12 @@
             return {
                 columns: [
                     { name: 'name', align: 'left', label: 'Name', sortable: true },
-                    { name: 'state', align: 'center', label: 'State', sortable: true},
-                    { name: 'dateOfPurchase', align: 'center', label: 'Date of Purchase', sortable: true},
-                    { name: 'dateOfSale', align: 'center', label: 'Date of Sale', sortable: true},
-                    { name: 'buyingPrice', align: 'center', label: 'Buying Price', sortable: true },
-                    { name: 'sellingPrice', align: 'center', label: 'Selling Price', sortable: true },
-                    { name: 'profit', align: 'center', label: 'Profit', sortable: true}
+                    { name: 'state', align: 'center', label: 'State', sortable: true, style: 'width: 10%' },
+                    { name: 'dateOfPurchase', align: 'center', label: 'Date of Purchase', sortable: true, style: 'width: 10%' },
+                    { name: 'dateOfSale', align: 'center', label: 'Date of Sale', sortable: true, style: 'width: 10%' },
+                    { name: 'buyingPrice', align: 'center', label: 'Buying Price', sortable: true, style: 'width: 10%' },
+                    { name: 'sellingPrice', align: 'center', label: 'Selling Price', sortable: true, style: 'width: 10%' },
+                    { name: 'profit', align: 'center', label: 'Profit', sortable: true, style: 'width: 10%' }
                 ],
                 locale: config.date.locale,
                 mask: config.date.mask,
@@ -94,7 +101,8 @@
                 pagination: {
                     page: 1,
                     rowsPerPage: 0
-                }
+                },
+                selected: []
             };
         },
         props: [

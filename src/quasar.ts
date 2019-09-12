@@ -7,6 +7,7 @@ import '@quasar/extras/roboto-font/roboto-font.css';
 import {
     ClosePopup,
     QBtn,
+    QCheckbox,
     QDate,
     QExpansionItem,
     QHeader,
@@ -30,6 +31,7 @@ export default {
     config: {},
     components: {
         QBtn,
+        QCheckbox,
         QDate,
         QExpansionItem,
         QHeader,
