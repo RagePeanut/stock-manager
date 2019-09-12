@@ -121,6 +121,8 @@
                 font-weight: normal
         button
             width: 106px
+            &.q-btn
+                transition: unset
         input
             outline: none
             border: none
