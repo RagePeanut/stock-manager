@@ -3,10 +3,6 @@ import { Quasar } from 'quasar';
 import QuasarOptions from './quasar';
 import './styles/quasar.styl';
 
-// Datetime
-import Datetime from 'vue-datetime';
-import 'vue-datetime/dist/vue-datetime.css';
-
 // Money
 import Money from 'v-money';
 
@@ -16,7 +12,6 @@ import router from './router';
 import store from './store';
 
 Vue.use(Quasar, QuasarOptions);
-Vue.use(Datetime);
 Vue.use(Money, { precision: 4 });
 
 Vue.config.productionTip = false;

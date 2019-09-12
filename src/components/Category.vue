@@ -21,10 +21,20 @@
                         <q-input v-model="props.row.name" type="text" spellcheck="false" borderless/>
                     </q-td>
                     <q-td key="dateOfPurchase" :props="props">
-                        <datetime v-model="props.row.purchase.date" input-class="cursor-pointer"/>
+                        <!-- <datetime v-model="props.row.purchase.date" input-class="cursor-pointer"/> -->
+                        <q-btn :ripple="false" :label="props.row.purchase.date" clear-label="test" flat>
+                            <q-popup-proxy>
+                                <q-date v-model="props.row.purchase.date" :locale="locale" :mask="mask"/>
+                            </q-popup-proxy>
+                        </q-btn>
                     </q-td>
                     <q-td key="dateOfSale" :props="props">
-                        <datetime v-model="props.row.sale.date" input-class="cursor-pointer"/>
+                        <q-btn :label="props.row.sale.date" flat>
+                            <q-popup-proxy ref="datePopup">
+                                <q-date v-model="props.row.sale.date" :locale="locale" :mask="mask"/>
+                                <q-btn class="clear-btn" label="Clear" color="primary" @click="props.row.sale.date = undefined" v-close-popup flat/>
+                            </q-popup-proxy>
+                        </q-btn>
                     </q-td>
                     <q-td key="buyingPrice" :props="props">
                         <money v-model="props.row.purchase.price" v-bind="money"/>
@@ -44,6 +54,7 @@
 <script lang="ts">
     import Vue from 'vue';
 
+    import config from '../app.config';
     import { formatDate, formatPrice } from '../utils/formatter';
 
     export default Vue.extend({
@@ -58,6 +69,8 @@
                     { name: 'sellingPrice', align: 'center', label: 'Selling Price', sortable: true },
                     { name: 'profit', align: 'center', label: 'Profit', sortable: true}
                 ],
+                locale: config.date.locale,
+                mask: config.date.mask,
                 money: {
                     decimal: '.',
                     thousands: ',',
@@ -80,14 +93,16 @@
         methods: {
             formatDate,
             formatPrice,
-            isSold: (row: any) => {
-                return row.sale && row.sale.price && row.sale.date;
-            }
+            isSold: (row: any): boolean => row.sale && row.sale.price && row.sale.date
         }
     });
 </script>
 
 <style lang="sass">
+    .clear-btn
+        position: absolute
+        right: 12px
+        bottom: 12px
     .q-table tr
         th
             opacity: 1
@@ -99,15 +114,35 @@
                 left: 10px
         th, td
             font-size: unset
+        td
+            padding-top: 0
+            padding-bottom: 0
+            .q-btn__content
+                font-weight: normal
+        button
+            width: 106px
         input
             outline: none
             border: none
             background-color: unset
             &.vdatetime-input, &.v-money
                 text-align: center
+        .q-field__control
+            input
+                padding-left: 16px
+            &::before
+                background-color: dimgrey
+                margin: 10px 0
+                border-radius: 3px
+                opacity: 0
+                transition: opacity 0.3s
+            &:hover::before
+                opacity: 0.15
         &.bg-green
             input
                 color: #fafafa // .text-grey-1
+            .q-field__control::before
+                background-color: white
     .q-table__card
         box-shadow: unset
     .vdatetime-calendar__month

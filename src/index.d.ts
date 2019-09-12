@@ -1,2 +1,2 @@
 declare module 'v-money';
-declare module 'vue-datetime';
+declare module 'quasar/lang/fr.js';
