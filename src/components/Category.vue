@@ -36,11 +36,11 @@
                             </q-popup-proxy>
                         </q-btn>
                     </q-td>
-                    <q-td key="buyingPrice" :props="props">
-                        <money v-model="props.row.purchase.price" v-bind="money"/>
+                    <q-td key="buyingPrice" class="td-money" :props="props">
+                        <money class="q-field__native" v-model="props.row.purchase.price" v-bind="money"/>
                     </q-td>
-                    <q-td key="sellingPrice" :props="props">
-                        <money v-model="props.row.sale.price" v-bind="money"/>
+                    <q-td key="sellingPrice" class="td-money" :props="props">
+                        <money class="q-field__native" v-model="props.row.sale.price" v-bind="money"/>
                     </q-td>
                     <q-td key="profit" :props="props" style="pointer-events: none">
                         {{ props.row.sale.date ? formatPrice(props.row.sale.price - props.row.purchase.price) : ''}}
@@ -99,6 +99,8 @@
 </script>
 
 <style lang="sass">
+    .q-date
+        width: 340px
     .clear-btn
         position: absolute
         right: 12px
@@ -120,7 +122,7 @@
             .q-btn__content
                 font-weight: normal
         button
-            width: 106px
+            width: 100%
             &.q-btn
                 transition: unset
         input
@@ -129,21 +131,34 @@
             background-color: unset
             &.vdatetime-input, &.v-money
                 text-align: center
-        .q-field__control
-            input
-                padding-left: 16px
+        .q-field__control input
+            padding-left: 16px
+        .q-field__control, .td-money
+            height: 56px
             &::before
-                background-color: dimgrey
+                content: ''
+                position: absolute
+                left: 0
+                top: 0
+                right: 0
+                bottom: 0
                 margin: 10px 0
+                background-color: dimgrey
                 border-radius: 3px
                 opacity: 0
                 transition: opacity 0.3s
+                pointer-events: none
             &:hover::before
                 opacity: 0.15
+        .td-money
+            position: relative
+            &::before
+                width: calc(100% - 32px)
+                margin: 10px 16px
         &.bg-green
             input
                 color: #fafafa // .text-grey-1
-            .q-field__control::before
+            .q-field__control::before, .td-money::before
                 background-color: white
     .q-table__card
         box-shadow: unset
