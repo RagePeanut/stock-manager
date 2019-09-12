@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <q-input class="q-pb-lg"
+    <q-input class="q-pb-lg searchbar"
              placeholder="Search"
              type="text"
              v-model="filter">
@@ -34,8 +34,8 @@
                         name: 'Books',
                         items: [
                         // tslint:disable:max-line-length
-                            { id: 1, name: 'La grue araignée', purchase: { date: new Date(), price: 15 }, sale: { date: new Date(), price: 20 } },
-                            { id: 2, name: 'Little circuit', purchase: { date: new Date(), price: 5.5 }, sale: { date: undefined, price: undefined } }
+                            { id: 1, name: 'Devoir de vérité - Tariq Ramadan', purchase: { date: new Date().toISOString(), price: 15 }, sale: { date: new Date().toISOString(), price: 20 } },
+                            { id: 2, name: 'Changer l\'eau des fleurs - Valérie Perrin', purchase: { date: new Date().toISOString(), price: 5.5 }, sale: { date: undefined, price: undefined } }
                         // tslint:enable:max-line-length
                         ]
                     },
@@ -43,8 +43,8 @@
                         name: 'Toys',
                         items: [
                         // tslint:disable:max-line-length
-                            { id: 1, name: 'La grue araignée', purchase: { date: new Date(), price: 15 }, sale: { date: new Date(), price: 20 } },
-                            { id: 2, name: 'Little circuit', purchase: { date: new Date(), price: 5.5 }, sale: { date: undefined, price: undefined } }
+                            { id: 1, name: 'La grue araignée', purchase: { date: new Date().toISOString(), price: 15 }, sale: { date: new Date().toISOString(), price: 20 } },
+                            { id: 2, name: 'Little circuit', purchase: { date: new Date().toISOString(), price: 5.5 }, sale: { date: undefined, price: undefined } }
                         // tslint:enable:max-line-length
                         ]
                     }
@@ -56,7 +56,7 @@
 </script>
 
 <style lang="sass">
-    .q-field
+    .searchbar
         width: 35%
         margin: 0 auto
     .q-item

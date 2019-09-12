@@ -6,6 +6,7 @@ import '@quasar/extras/mdi-v3/mdi-v3.css';
 import '@quasar/extras/roboto-font/roboto-font.css';
 import {
   QBtn,
+  QDate,
   QExpansionItem,
   QHeader,
   QIcon,
@@ -13,6 +14,7 @@ import {
   QLayout,
   QPage,
   QPageContainer,
+  QPopupProxy,
   QTab,
   QTable,
   QTabs,
@@ -25,6 +27,7 @@ export default {
     config: {},
     components: {
         QBtn,
+        QDate,
         QExpansionItem,
         QHeader,
         QIcon,
@@ -32,6 +35,7 @@ export default {
         QLayout,
         QPageContainer,
         QPage,
+        QPopupProxy,
         QTab,
         QTable,
         QTabs,
@@ -39,6 +43,9 @@ export default {
         QTr
     },
     directives: {},
+    framework: {
+        lang: 'fr'
+    },
     plugins: {},
     lang: require('quasar/lang/fr.js')
 };

@@ -18,22 +18,22 @@
                 <q-tr :props="props"
                       :class="{ 'bg-green text-grey-1': isSold(props.row) }">
                     <q-td key="name" :props="props">
-                        {{ props.row.name }}
+                        <q-input v-model="props.row.name" type="text" spellcheck="false" borderless/>
                     </q-td>
                     <q-td key="dateOfPurchase" :props="props">
-                        {{ formatDate(props.row.purchase.date) }}
+                        <datetime v-model="props.row.purchase.date" input-class="cursor-pointer"/>
                     </q-td>
                     <q-td key="dateOfSale" :props="props">
-                        {{ formatDate(props.row.sale.date) }}
+                        <datetime v-model="props.row.sale.date" input-class="cursor-pointer"/>
                     </q-td>
                     <q-td key="buyingPrice" :props="props">
-                        {{ formatPrice(props.row.purchase.price) }}
+                        <money v-model="props.row.purchase.price" v-bind="money"/>
                     </q-td>
                     <q-td key="sellingPrice" :props="props">
-                        {{ formatPrice(props.row.sale.price) }}
+                        <money v-model="props.row.sale.price" v-bind="money"/>
                     </q-td>
-                    <q-td key="profit" :props="props">
-                        {{ formatPrice(props.row.sale.price - props.row.purchase.price) }}
+                    <q-td key="profit" :props="props" style="pointer-events: none">
+                        {{ props.row.sale.date ? formatPrice(props.row.sale.price - props.row.purchase.price) : ''}}
                     </q-td>
                 </q-tr>
             </template>
@@ -58,6 +58,14 @@
                     { name: 'sellingPrice', align: 'center', label: 'Selling Price', sortable: true },
                     { name: 'profit', align: 'center', label: 'Profit', sortable: true}
                 ],
+                money: {
+                    decimal: '.',
+                    thousands: ',',
+                    prefix: '',
+                    suffix: '€',
+                    precision: 2,
+                    masked: false
+                },
                 pagination: {
                     page: 1,
                     rowsPerPage: 0
@@ -72,7 +80,7 @@
         methods: {
             formatDate,
             formatPrice,
-            isSold(row: any) {
+            isSold: (row: any) => {
                 return row.sale && row.sale.price && row.sale.date;
             }
         }
@@ -80,16 +88,29 @@
 </script>
 
 <style lang="sass">
-    .q-table
-        tr
-            th
-                opacity: 1
+    .q-table tr
+        th
+            opacity: 1
+            text-align: center
+            i
+                width: 0
+                margin-left: 0
+                position: relative
+                left: 10px
+        th, td
+            font-size: unset
+        input
+            outline: none
+            border: none
+            background-color: unset
+            &.vdatetime-input, &.v-money
                 text-align: center
-                i
-                    width: 0
-                    margin-left: 0
-                    position: relative
-                    left: 10px
+        &.bg-green
+            input
+                color: #fafafa // .text-grey-1
     .q-table__card
         box-shadow: unset
+    .vdatetime-calendar__month
+        display: flex
+        flex-wrap: wrap
 </style>
