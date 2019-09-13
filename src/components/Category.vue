@@ -1,7 +1,6 @@
 <template>
     <q-expansion-item
-        header-class="bg-white text-h6"
-        header-style="user-select: none"
+        header-class="bg-white text-h6 non-selectable"
         :label="category"
         dense-toggle
         switch-toggle-side>
@@ -55,7 +54,7 @@
                     <q-td key="sellingPrice" class="td-money" :props="props">
                         <money class="q-field__native" v-model="props.row.sale.price" v-bind="money"/>
                     </q-td>
-                    <q-td key="profit" style="user-select:none" :props="props">
+                    <q-td key="profit" class="non-selectable" :props="props">
                         {{ props.row.sale.date ? formatPrice(props.row.sale.price - props.row.purchase.price) : ''}}
                     </q-td>
                 </q-tr>

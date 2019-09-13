@@ -9,8 +9,22 @@
         </template>
     </q-input>
     <div class="actions q-pb-lg q-pl-md">
-        <q-btn color="negative" icon="delete" label="Remove" @click="removeSelected"/>
+        <q-btn color="negative" icon="delete" label="Remove" @click="confirmRemove = true"/>
     </div>
+    <q-dialog v-model="confirmRemove">
+        <q-card>
+            <q-card-section class="row items-center">
+                <span class="text-h6">Are you sure?</span>
+                <span class="q-mt-sm">
+                    You are about to <strong>permanently</strong> remove the selected items from your stocks. Once removed, you <strong>won't</strong> be able to access them <strong>ever</strong> again.
+                </span>
+            </q-card-section>
+            <q-card-actions align="right">
+                <q-btn label="Cancel" color="primary" v-close-popup flat/>
+                <q-btn label="Remove" color="primary" @click="removeSelected" v-close-popup flat/>
+            </q-card-actions>
+        </q-card>
+    </q-dialog>
     <Category
         v-for="category of categories"
         :category="category.name"
@@ -52,6 +66,7 @@
                         ]
                     }
                 ],
+                confirmRemove: false,
                 filter: ''
             };
         },
