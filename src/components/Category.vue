@@ -10,6 +10,7 @@
             row-key="id"
             selection="multiple"
             separator="none"
+            table-style="overflow: unset"
             v-if="data.length > 0"
             :columns="columns"
             :data="data"
@@ -49,10 +50,14 @@
                     </q-td>
                     <!-- TODO: fix ::before being highlighted when mouse isn't over the input -->
                     <q-td key="buyingPrice" class="td-money" :props="props">
-                        <money class="q-field__native" v-model="props.row.purchase.price" v-bind="money"/>
+                        <div>
+                            <money class="q-field__native" v-model="props.row.purchase.price" v-bind="money"/>
+                        </div>
                     </q-td>
                     <q-td key="sellingPrice" class="td-money" :props="props">
-                        <money class="q-field__native" v-model="props.row.sale.price" v-bind="money"/>
+                        <div>
+                            <money class="q-field__native" v-model="props.row.sale.price" v-bind="money"/>
+                        </div>
                     </q-td>
                     <q-td key="profit" class="non-selectable" :props="props">
                         {{ props.row.sale.date ? formatPrice(props.row.sale.price - props.row.purchase.price) : ''}}
@@ -177,14 +182,21 @@
             background-color: unset
             &.vdatetime-input, &.v-money
                 text-align: center
+        input, .q-select .q-field__native
+            height: 36px
+            padding-top: 0
+            padding-bottom: 0
         .q-field__control
+            height: 36px
+            min-height: 36px
             input
                 padding-left: 16px
             span
                 padding: 0 16px
                 margin: 0 auto
-        .q-field__control, .td-money
-            height: 56px
+            .q-field__native
+                min-height: 36px
+        .q-field__control, .td-money div
             &::before
                 content: ''
                 position: absolute
@@ -192,7 +204,6 @@
                 top: 0
                 right: 0
                 bottom: 0
-                margin: 10px 0
                 background-color: dimgrey
                 border-radius: 3px
                 opacity: 0
@@ -204,13 +215,19 @@
             display: none
         .td-money
             position: relative
-            &::before
-                width: calc(100% - 32px)
-                margin: 10px 16px
+            padding: 0
+            height: 56px
+            div
+                margin: 0 16px
+                input
+                    margin: 10px 0
+                &::before
+                    width: calc(100% - 32px)
+                    margin: 10px 16px
         &.bg-green
             input, .q-select .q-field__native
                 color: #fafafa // .text-grey-1
-            .q-field__control::before, .td-money::before
+            .q-field__control::before, .td-money div::before
                 background-color: white
     .q-table__card
         box-shadow: unset
