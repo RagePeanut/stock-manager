@@ -7,6 +7,7 @@ import '@quasar/extras/roboto-font/roboto-font.css';
 import {
     ClosePopup,
     QBtn,
+    QBtnDropdown,
     QCard,
     QCardActions,
     QCardSection,
@@ -17,6 +18,8 @@ import {
     QHeader,
     QIcon,
     QInput,
+    QItem,
+    QItemSection,
     QLayout,
     QPage,
     QPageContainer,
@@ -35,6 +38,7 @@ export default {
     config: {},
     components: {
         QBtn,
+        QBtnDropdown,
         QCard,
         QCardActions,
         QCardSection,
@@ -45,6 +49,8 @@ export default {
         QHeader,
         QIcon,
         QInput,
+        QItem,
+        QItemSection,
         QLayout,
         QPageContainer,
         QPage,

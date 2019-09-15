@@ -5,13 +5,13 @@
         dense-toggle
         switch-toggle-side>
         <q-table
+            v-if="data.length > 0"
             class="q-pb-lg"
             ref="stocksTable"
             row-key="id"
             selection="multiple"
             separator="none"
             table-style="overflow: unset"
-            v-if="data.length > 0"
             :columns="columns"
             :data="data"
             :filter="filter"
