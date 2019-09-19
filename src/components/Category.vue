@@ -70,11 +70,10 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    
     import { date } from 'quasar';
 
     import config from '../app.config';
-    import { formatDate, formatPrice } from '../utils/formatter';
+    import { formatPrice } from '../utils/formatter';
 
     export default Vue.extend({
         name: 'Category',
@@ -116,7 +115,6 @@
             'filter'
         ],
         methods: {
-            formatDate,
             formatPrice,
             isSold: (row: any): boolean => row.sale && row.sale.price && row.sale.date,
             sortTable: function(rows: any[], sortBy: string, isDescending: boolean) {
