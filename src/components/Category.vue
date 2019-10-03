@@ -69,8 +69,8 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue';
     import { date } from 'quasar';
+    import Vue from 'vue';
 
     import config from '../app.config';
     import { formatPrice } from '../utils/formatter';

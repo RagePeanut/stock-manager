@@ -129,7 +129,7 @@
                     this.createCategory(destination);
                 }
             },
-            removeSelected: function(unremovableCategory?: string): any[] {
+            removeSelected: function(unremovableCategory?: any): any[] {
                 const removed: any[] = [];
                 for (const category of this.categories) {
                     const canRemove: boolean = category.name !== unremovableCategory;
@@ -143,6 +143,9 @@
                         return true;
                     });
                 }
+                // Removing the categories that don't have any items anymore
+                this.categories = this.categories.filter((category: any) => category.items.length > 0);
+                this.categoryNames = this.categories.map((category: any) => category.name);
                 for (const category of this.$refs.categories as Vue[]) {
                     category.$data.selected = [];
                 }
