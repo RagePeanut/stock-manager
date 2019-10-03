@@ -129,10 +129,10 @@
                     this.createCategory(destination);
                 }
             },
-            removeSelected: function(unremovableCategory?: any): any[] {
+            removeSelected: function(unremovableCategoryName?: string): any[] {
                 const removed: any[] = [];
                 for (const category of this.categories) {
-                    const canRemove: boolean = category.name !== unremovableCategory;
+                    const canRemove: boolean = category.name !== unremovableCategoryName;
                     category.items = category.items.filter((item: any) => {
                         if (item.selected && canRemove) {
                             item.selected = false;
