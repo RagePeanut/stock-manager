@@ -58,6 +58,7 @@
 <script lang="ts">
     import uuid from 'uuid';
     import Vue from 'vue';
+    import { mapActions, mapGetters } from 'vuex';
 
     import Category from '../components/Category.vue';
 
@@ -66,90 +67,61 @@
         components: {
             Category
         },
+        computed: {
+            ...mapGetters([ 'categories', 'categoryNames' ]) as {
+                categories: () => any[],
+                categoryNames: () => string[]
+            },
+            filteredCategories: function(): string[] {
+                return this.categoryFilter.length === 0
+                    ? this.categoryNames
+                    : this.categoryNames.filter((name: string) => name.toLowerCase().indexOf(this.categoryFilter) > -1);
+            },
+            someSelected: function(): boolean {
+                return this.categories.some((category: any) => category.items.some((item: any) => item.selected));
+            }
+        },
+        created: function() {
+            this.fetchCategories();
+        },
         data: () => {
             return {
-                categories: [
-                    {
-                        name: 'Books',
-                        items: [
-                        // tslint:disable:max-line-length
-                            { id: uuid.v1(), name: 'Devoir de vérité - Tariq Ramadan', state: 'New', purchase: { date: '18/07/2018', price: 15 }, sale: { date: '18/07/2018', price: 20 }, selected: false },
-                            { id: uuid.v1(), name: 'Changer l\'eau des fleurs - Valérie Perrin', state: 'Used', purchase: { date: '18/07/2018', price: 5.5 }, sale: { date: undefined, price: undefined }, selected: false }
-                        // tslint:enable:max-line-length
-                        ]
-                    },
-                    {
-                        name: 'Toys',
-                        items: [
-                        // tslint:disable:max-line-length
-                            { id: uuid.v1(), name: 'La grue araignée', state: 'New', purchase: { date: '18/07/2018', price: 15 }, sale: { date: '18/07/2018', price: 20 }, selected: false },
-                            { id: uuid.v1(), name: 'Little circuit', state: 'Used', purchase: { date: '18/07/2018', price: 5.5 }, sale: { date: undefined, price: undefined }, selected: false }
-                        // tslint:enable:max-line-length
-                        ]
-                    }
-                ],
                 categoryDropdown: false,
                 categoryFilter: '',
                 categoryModel: '',
-                categoryNames: [ 'Books', 'Toys' ],
                 confirmRemove: false,
-                filter: '',
-                filteredCategories: [ 'Books', 'Toys' ]
+                filter: ''
             };
         },
         methods: {
-            createCategory: function(val: string): void {
-                const trimmed = val.trim();
-                if (trimmed !== '') {
-                    if (!this.categoryNames.map((name: string) => name.toLowerCase()).includes(trimmed.toLowerCase())) {
-                        this.categories.push({ name: trimmed, items: [] });
-                        this.categoryNames.push(trimmed);
-                    }
-                    this.moveItems(trimmed);
-                }
+            ...mapActions([ 'addCategory', 'fetchCategories', 'moveSelectedItems', 'removeSelectedItems' ]) as {
+                addCategory: any,
+                fetchCategories: any,
+                moveSelectedItems: any,
+                removeSelectedItems: any
+            },
+            createCategory: function(name: any): void {
+                this.someSelected ? this.moveSelectedItems(name) : this.addCategory(name);
             },
             filterCategories: function(val: string, update: any): void {
-                    this.categoryFilter = val;
-                    update(() => {
-                        if (val === '') {
-                            this.filteredCategories = this.categoryNames;
-                        } else {
-                            const filter: string = val.toLowerCase();
-                            this.filteredCategories = this.categoryNames.filter((name: string) => name.toLowerCase().indexOf(filter) > -1);
-                        }
-                    });
+                update(() => {
+                    this.categoryFilter = val.toLowerCase();
+                });
             },
             moveItems: function(destination: string): any {
-                const category = this.categories.find((category: any) => category.name.toLowerCase() === destination.toLowerCase());
-                if (category) {
-                    category.items = category.items.concat(this.removeSelected(category.name));
-                    this.categoryModel = '';
-                    this.categoryDropdown = false;
-                } else {
-                    this.createCategory(destination);
-                }
+                this.moveSelectedItems(destination);
+                this.categoryModel = '';
+                this.categoryDropdown = false;
+                this.uncheckAll();
             },
-            removeSelected: function(unremovableCategoryName?: string): any[] {
-                const removed: any[] = [];
-                for (const category of this.categories) {
-                    const canRemove: boolean = category.name !== unremovableCategoryName;
-                    category.items = category.items.filter((item: any) => {
-                        if (item.selected && canRemove) {
-                            item.selected = false;
-                            removed.push(item);
-                            return false;
-                        }
-                        item.selected = false;
-                        return true;
-                    });
-                }
-                // Removing the categories that don't have any items anymore
-                this.categories = this.categories.filter((category: any) => category.items.length > 0);
-                this.categoryNames = this.categories.map((category: any) => category.name);
+            removeSelected: function(unremovableCategoryName?: string): void {
+                this.removeSelectedItems(unremovableCategoryName);
+                this.uncheckAll();
+            },
+            uncheckAll: function(): void {
                 for (const category of this.$refs.categories as Vue[]) {
                     category.$data.selected = [];
                 }
-                return removed;
             }
         }
     });

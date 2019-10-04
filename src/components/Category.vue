@@ -48,7 +48,6 @@
                             </q-popup-proxy>
                         </q-btn>
                     </q-td>
-                    <!-- TODO: fix ::before being highlighted when mouse isn't over the input -->
                     <q-td key="buyingPrice" class="td-money" :props="props">
                         <div>
                             <money class="q-field__native" v-model="props.row.purchase.price" v-bind="money"/>
