@@ -19,6 +19,7 @@
     "no-consecutive-blank-lines": false,
     "trailing-comma": false,
     "only-arrow-functions": false,
-    "no-shadowed-variable": false
+    "no-shadowed-variable": false,
+    "unified-signatures": false
   }
 }
