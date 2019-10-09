@@ -137,8 +137,9 @@
                                             date.extractDate(x.sale.date, this.mask),
                                             date.extractDate(y.sale.date, this.mask)
                                         ).valueOf();
+                        // It's a string
                         default:
-                            return x[sortBy] > y[sortBy] ? 1 : x[sortBy] < y[sortBy] ? -1 : 0;
+                            return x[sortBy].localeCompare(y[sortBy]);
                     }
                 });
             }
