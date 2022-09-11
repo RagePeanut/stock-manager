@@ -1,0 +1,1 @@
+# [Stock Manager](https://mystockmanager.web.app)
